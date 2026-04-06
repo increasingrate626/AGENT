@@ -1,0 +1,91 @@
+{
+  "id": "9e86b163-0631-4052-825f-329e4c52f371",
+  "name": "AI 播客工作流",
+  "description": "文本转播客音频流水线",
+  "nodes": [
+    {
+      "id": "default_input",
+      "type": "user_input",
+      "label": "用户输入",
+      "position": {
+        "x": 300.0,
+        "y": 50.0
+      },
+      "config": {
+        "variable_name": "user_input",
+        "placeholder": "请输入文本..."
+      }
+    },
+    {
+      "id": "default_llm",
+      "type": "llm",
+      "label": "大模型",
+      "position": {
+        "x": 300.0,
+        "y": 200.0
+      },
+      "config": {
+        "model": "gpt-3.5-turbo",
+        "api_base": "",
+        "api_key": "",
+        "system_prompt": "你是一位播客主持人。请根据用户提供的主题，创作一段生动、引人入胜的播客脚本。用适合音频朗读的对话式语气撰写。",
+        "prompt_template": "{{user_input}}",
+        "temperature": 0.7,
+        "max_tokens": 2048,
+        "top_p": 1
+      }
+    },
+    {
+      "id": "default_tts",
+      "type": "tts",
+      "label": "超拟人音频合成",
+      "position": {
+        "x": 345.0,
+        "y": 495.0
+      },
+      "config": {
+        "voice": "zh-CN-XiaoxiaoNeural",
+        "speed": "+0%",
+        "pitch": "+0Hz",
+        "output_format": "mp3"
+      }
+    },
+    {
+      "id": "default_end",
+      "type": "end",
+      "label": "结束",
+      "position": {
+        "x": 300.0,
+        "y": 580.0
+      },
+      "config": {
+        "output_type": "auto"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_input_llm",
+      "source": "default_input",
+      "target": "default_llm",
+      "sourceHandle": "output",
+      "targetHandle": "input"
+    },
+    {
+      "id": "e_llm_tts",
+      "source": "default_llm",
+      "target": "default_tts",
+      "sourceHandle": "output",
+      "targetHandle": "input"
+    },
+    {
+      "id": "e_tts_end",
+      "source": "default_tts",
+      "target": "default_end",
+      "sourceHandle": "output",
+      "targetHandle": "input"
+    }
+  ],
+  "created_at": "2026-04-04T12:48:32.366490+00:00",
+  "updated_at": "2026-04-04T12:48:32.366490+00:00"
+}
