@@ -28,7 +28,34 @@ class LLMNodeExecutor(BaseNodeExecutor):
         # Also include initial inputs
         variables.update(context.initial_inputs)
 
-        prompt_template = config.get("prompt_template", "{{user_input}}")
+        # Handle new dynamic parameters if present
+        parameters = config.get("parameters")
+        if parameters and isinstance(parameters, list):
+            # Build prompt template and variables from dynamic parameters
+            prompt_parts = []
+            for param in parameters:
+                param_name = param.get("name", "")
+                if not param_name:
+                    continue
+
+                param_type = param.get("type", "input")
+                if param_type == "reference":
+                    # Get value from referenced node
+                    ref_node = param.get("referenceNode", "")
+                    if ref_node in variables:
+                        variables[param_name] = variables[ref_node]
+                    prompt_parts.append(f"{{{{{param_name}}}}}")
+                else:
+                    # Use direct input value
+                    param_value = param.get("value", "")
+                    variables[param_name] = param_value
+                    prompt_parts.append(f"{{{{{param_name}}}}}")
+
+            prompt_template = "\n".join(prompt_parts) if prompt_parts else "{{user_input}}"
+        else:
+            # Fallback to legacy prompt_template
+            prompt_template = config.get("prompt_template", "{{user_input}}")
+
         prompt = interpolate_template(prompt_template, variables)
         system_prompt = config.get("system_prompt", "")
 

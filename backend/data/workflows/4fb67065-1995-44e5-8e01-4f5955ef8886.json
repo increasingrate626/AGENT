@@ -1,5 +1,5 @@
 {
-  "id": "9e86b163-0631-4052-825f-329e4c52f371",
+  "id": "4fb67065-1995-44e5-8e01-4f5955ef8886",
   "name": "AI 播客工作流",
   "description": "文本转播客音频流水线",
   "nodes": [
@@ -22,17 +22,30 @@
       "label": "大模型",
       "position": {
         "x": 300.0,
-        "y": 195.0
+        "y": 200.0
       },
       "config": {
         "model": "deepseek-chat",
         "api_base": "https://api.deepseek.com",
-        "api_key": "sk-711e7522ffe24bbfa92288e65a02ca4f",
-        "system_prompt": "你是一位播客主持人。请根据用户提供的主题，创作一段生动、引人入胜的播客脚本。用适合音频朗读的对话式语气撰写。",
-        "prompt_template": "{{user_input}}",
+        "api_key": "",
         "temperature": 0.7,
-        "max_tokens": 2048,
-        "top_p": 1
+        "parameters": [
+          {
+            "name": "user_input",
+            "type": "reference",
+            "value": "",
+            "referenceNode": ""
+          }
+        ],
+        "output_parameters": [
+          {
+            "name": "text",
+            "type": "string",
+            "description": "LLM 生成的文本输出"
+          }
+        ],
+        "system_prompt": "你是一位播客主持人。请根据用户提供的主题，创作一段生动、引人入胜的播客脚本。用适合音频朗读的对话式语气撰写。",
+        "prompt_template": "{{user_input}}"
       }
     },
     {
@@ -41,7 +54,7 @@
       "label": "超拟人音频合成",
       "position": {
         "x": 300.0,
-        "y": 420.0
+        "y": 400.0
       },
       "config": {
         "voice": "zh-CN-XiaoxiaoNeural",
@@ -55,8 +68,8 @@
       "type": "end",
       "label": "结束",
       "position": {
-        "x": 330.0,
-        "y": 660.0
+        "x": 300.0,
+        "y": 580.0
       },
       "config": {
         "output_type": "auto"
@@ -86,6 +99,6 @@
       "targetHandle": "input"
     }
   ],
-  "created_at": "2026-04-04T12:48:32.366490+00:00",
-  "updated_at": "2026-04-06T11:54:53.560719+00:00"
+  "created_at": "2026-04-06T11:54:53.557166+00:00",
+  "updated_at": "2026-04-06T11:54:53.557166+00:00"
 }

@@ -26,6 +26,7 @@ const DebugDrawer: React.FC<DebugDrawerProps> = ({ open, onClose }) => {
 
   const isRunning = useExecutionStore((s) => s.isRunning);
   const audioUrl = useExecutionStore((s) => s.audioUrl);
+  const audioText = useExecutionStore((s) => s.audioText);
   const error = useExecutionStore((s) => s.error);
   const logs = useExecutionStore((s) => s.logs);
   const nodeStatuses = useExecutionStore((s) => s.nodeStatuses);
@@ -178,6 +179,26 @@ const DebugDrawer: React.FC<DebugDrawerProps> = ({ open, onClose }) => {
           <>
             <Divider style={{ margin: '8px 0' }}>音频输出</Divider>
             <AudioPlayer url={audioUrl} />
+            {audioText && (
+              <div style={{ marginTop: 12 }}>
+                <div style={{ fontSize: 12, color: '#666', marginBottom: 4 }}>音频文本</div>
+                <div
+                  style={{
+                    padding: 12,
+                    background: '#f6f6f6',
+                    borderRadius: 6,
+                    fontSize: 13,
+                    lineHeight: 1.6,
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    maxHeight: 200,
+                    overflowY: 'auto',
+                  }}
+                >
+                  {audioText}
+                </div>
+              </div>
+            )}
           </>
         )}
 

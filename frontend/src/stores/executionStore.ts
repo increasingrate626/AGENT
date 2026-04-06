@@ -11,6 +11,7 @@ interface ExecutionStore {
   nodeStatuses: Record<string, NodeExecutionStatus>;
   logs: LogEntry[];
   audioUrl: string | null;
+  audioText: string | null;
   error: string | null;
 
   startExecution: (executionId: string) => void;
@@ -24,6 +25,7 @@ export const useExecutionStore = create<ExecutionStore>((set, get) => ({
   nodeStatuses: {},
   logs: [],
   audioUrl: null,
+  audioText: null,
   error: null,
 
   startExecution: (executionId) => {
@@ -33,6 +35,7 @@ export const useExecutionStore = create<ExecutionStore>((set, get) => ({
       nodeStatuses: {},
       logs: [],
       audioUrl: null,
+      audioText: null,
       error: null,
     });
   },
@@ -72,6 +75,9 @@ export const useExecutionStore = create<ExecutionStore>((set, get) => ({
         if (event.data?.audio_url) {
           updates.audioUrl = event.data.audio_url;
         }
+        if (event.data?.audio_text) {
+          updates.audioText = event.data.audio_text;
+        }
         break;
 
       case 'node_error':
@@ -89,6 +95,9 @@ export const useExecutionStore = create<ExecutionStore>((set, get) => ({
         if (event.data?.audio_url) {
           updates.audioUrl = event.data.audio_url;
         }
+        if (event.data?.audio_text) {
+          updates.audioText = event.data.audio_text;
+        }
         if (event.data?.error) {
           updates.error = event.data.error;
         }
@@ -105,6 +114,7 @@ export const useExecutionStore = create<ExecutionStore>((set, get) => ({
       nodeStatuses: {},
       logs: [],
       audioUrl: null,
+      audioText: null,
       error: null,
     });
   },

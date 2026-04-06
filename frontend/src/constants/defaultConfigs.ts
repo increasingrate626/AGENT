@@ -6,14 +6,25 @@ export const DEFAULT_CONFIGS: Record<NodeType, Record<string, unknown>> = {
     placeholder: '请输入文本...',
   },
   llm: {
-    model: 'gpt-3.5-turbo',
-    api_base: '',
-    api_key: '',
-    system_prompt: '',
-    prompt_template: '{{user_input}}',
+    model: 'deepseek-chat',
+    api_base: 'https://api.deepseek.com',
+    api_key: 'sk-711e7522ffe24bbfa92288e65a02ca4f',
     temperature: 0.7,
-    max_tokens: 2048,
-    top_p: 1.0,
+    parameters: [
+      {
+        name: 'user_input',
+        type: 'reference',
+        value: '',
+        referenceNode: '',
+      },
+    ],
+    output_parameters: [
+      {
+        name: 'text',
+        type: 'string',
+        description: 'LLM 生成的文本输出',
+      },
+    ],
   },
   tts: {
     voice: 'zh-CN-XiaoxiaoNeural',

@@ -37,7 +37,7 @@ class TTSNodeExecutor(BaseNodeExecutor):
         pitch = config.get("pitch", "+0Hz")
         output_format = config.get("output_format", "mp3")
 
-        output_path = await synthesize_audio(
+        _, audio_url = await synthesize_audio(
             text=text,
             voice=voice,
             speed=speed,
@@ -45,5 +45,4 @@ class TTSNodeExecutor(BaseNodeExecutor):
             output_format=output_format,
         )
 
-        audio_url = f"/api/v1/audio/{output_path.name}"
         return {"text": text, "audio_url": audio_url}

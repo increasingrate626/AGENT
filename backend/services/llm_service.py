@@ -21,6 +21,10 @@ async def call_llm(
     base_url = api_base or settings.openai_api_base
     key = api_key or settings.openai_api_key
 
+    # Normalize base_url: remove trailing /v1 if present, as SDK adds it
+    if base_url.endswith("/v1"):
+        base_url = base_url[:-3]
+
     client = AsyncOpenAI(api_key=key, base_url=base_url)
 
     messages = []

@@ -4,6 +4,7 @@ import edge_tts
 from pathlib import Path
 
 from config import settings
+from services import minio_service
 
 
 async def synthesize_audio(
@@ -13,7 +14,12 @@ async def synthesize_audio(
     pitch: str = "+0Hz",
     output_format: str = "mp3",
     output_path: Path | None = None,
-) -> Path:
+) -> tuple[Path, str]:
+    """Synthesize audio and upload to MinIO.
+
+    Returns:
+        tuple: (local_path, minio_url)
+    """
     voice = voice or settings.tts_default_voice
 
     if output_path is None:
@@ -26,7 +32,12 @@ async def synthesize_audio(
     communicate = edge_tts.Communicate(text, voice, rate=speed, pitch=pitch)
     await communicate.save(str(output_path))
 
-    return output_path
+    # Upload to MinIO (fallback to local URL if MinIO unavailable)
+    minio_path = f"audio/{output_path.name}"
+    content_type = "audio/mpeg" if output_format == "mp3" else "audio/wav"
+    minio_url = minio_service.upload_file_from_path(minio_path, str(output_path), content_type)
+
+    return output_path, minio_url
 
 
 async def list_voices() -> list[dict]:

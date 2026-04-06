@@ -129,6 +129,9 @@ async def run_workflow(
                     )
                 if "audio_url" in result:
                     data["audio_url"] = result["audio_url"]
+                    # Include full text for audio display
+                    if "text" in result:
+                        data["audio_text"] = result["text"]
 
                 await context.push_event(
                     "node_complete",

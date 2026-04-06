@@ -13,6 +13,7 @@ export interface ExecutionStatusEvent {
   data: {
     output_text?: string;
     audio_url?: string;
+    audio_text?: string;
     error?: string;
     duration_ms?: number;
   };
